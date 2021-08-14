@@ -1,0 +1,28 @@
+
+body{
+    display:flex;
+    justify-content:center;
+    background-color:#333233;
+}
+
+.data-grey{
+    background-color:#b734eb;
+}
+.data-white{
+    background-color:#d587f5;
+}
+
+.data{
+    color:white;
+}
+h1{
+    color:green;
+}
+
+p{
+    color:red;
+}
+
+a{
+    color:black;
+}
