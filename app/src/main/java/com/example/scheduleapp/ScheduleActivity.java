@@ -169,8 +169,9 @@ public class ScheduleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
+        getSupportActionBar().hide();
 
-     //   System.out.println("****####*****");
+        //   System.out.println("****####*****");
         Intent intent = getIntent();
         ProgramValue = intent.getStringExtra(MainActivity.EXTRA_TEXT2);
         YearValue = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_TEXT3));
