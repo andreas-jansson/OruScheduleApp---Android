@@ -2,6 +2,8 @@ package com.example.scheduleapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.app.AsyncNotedAppOp;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -43,15 +45,78 @@ import static android.widget.AdapterView.*;
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
-    private CheckBox chkBxDefault;
     private String ProgramValue;
     private int YearValue;
+    private String YearValueString;
     private Spinner dropdown;
-    private String DefaultValue;
-    public String htmlString=null;
-    public static String EXTRA_TEXT="com.example.ScheduleApp.EXTRA_TEXT";
-    private String endDate;
+    public static String EXTRA_TEXT2="com.example.ScheduleApp.EXTRA_TEXT2";
+    public static String EXTRA_TEXT3="com.example.ScheduleApp.EXTRA_TEXT3";
 
+    /*
+    private class AsyncLoadSchedule extends AsyncTask<Void, Void, Boolean>{
+
+
+        @Override
+        protected void onPreExecute() {
+            htmlString=null;
+            super.onPreExecute();
+
+        }
+
+
+        protected Boolean doInBackground(Void... aVoid) {
+            getScheduleAPI();
+
+            if(htmlString == null){
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if(aBoolean == true){
+
+            }
+            else{
+
+            }
+        }
+    }
+
+
+    public void loadSchedulePage(View v){
+        Intent i = new Intent(this, ScheduleActivity.class);
+        if(htmlString != null){
+            i.putExtra(EXTRA_TEXT, htmlString);
+            startActivity(i);
+        }
+    }
+*/
+
+    //Launches the ScheduleActivity
+    public void displaySchedule(View v){
+        System.out.println("*************************");
+        System.out.println("program: " + ProgramValue);
+        System.out.println("year: " + YearValue);
+        Intent i = new Intent(this, ScheduleActivity.class);
+       // Toast.makeText(this, "p: " + ProgramValue + " y: " + YearValue, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
+
+        i.putExtra(EXTRA_TEXT2, ProgramValue);
+        YearValueString = Integer.toString(YearValue);
+        i.putExtra(EXTRA_TEXT3, YearValueString);
+        startActivity(i);
+    }
+
+    public void displayAbout(View v){
+        Intent i = new Intent(this, AboutActivity.class);
+        startActivity(i);
+    }
+
+    // --------- Tidigare funktioner ------------//
 
     @Override
     public void onClick(View v) {
@@ -101,12 +166,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         dropdown = findViewById(R.id.spinnerPrograms);
 
         final ArrayList<String> programList = new ArrayList<>();
-        programList.add("");
+        programList.add("Select Program");
         programList.add("Datateknik - Högskoleingenjör");
         programList.add("Byggteknik - Högskoleingenjör");
         programList.add("Maskinteknik - Högskoleingenjör");
         programList.add("Industriell ekonomi - Högskoleingenjör");
         programList.add("Ind design och produktutv - Högskoleingenjör");
+        programList.add("Datateknik - Civilingenjör");
+        programList.add("industriell ekonomi - Civilingenjör");
+        programList.add("Analysvetenskap. pgm i kemi med inr. forensik");
+        programList.add("Matematikerprogrammet");
+        programList.add("Måltidsekologprogrammet");
+        programList.add("Tekniskt basår");
+        programList.add("Masterprogram i kemi med inrikt. miljöforensik");
 
 
         ArrayAdapter<String> programAdapter = new ArrayAdapter<>(
@@ -128,32 +200,25 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
+    /*
     //Launches the ScheduleActivity
     public void displaySchedule(View v){
         System.out.println("program: " + ProgramValue);
         System.out.println("year: " + YearValue);
-        //Toast.makeText(this, "p: "+ ProgramValue +" y: "+ YearValue, Toast.LENGTH_SHORT).show();
 
-        getScheduleAPI();
-        SystemClock.sleep(200);
+       // getScheduleAPI();
 
         Intent i = new Intent(this, ScheduleActivity.class);
         Toast.makeText(this, "html: " + htmlString + "p: " + ProgramValue + " y: " + YearValue, Toast.LENGTH_SHORT).show();
 
         if(htmlString != null){
-          //  Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
             i.putExtra(EXTRA_TEXT, htmlString);
             htmlString=null;
             startActivity(i);
         }
-        else{
-           // Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
-            //   Toast.makeText(this, "Select a program", Toast.LENGTH_SHORT).show();
-        }
+    }*/
 
-
-    }
-
+    /*
     public String GetStringPicker(){
         GetEndDate();
 
@@ -192,10 +257,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         }
 
     }
+    */
 
+    /*
     public void getScheduleAPI(){
         String url = GetStringPicker();
-
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url(url)
@@ -211,10 +277,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
                     htmlString = response.body().string();
-                 //   System.out.println(htmlString);
+                   // System.out.println(htmlString);
                     System.out.println("success!");
                     cleanHtml();
-
                 }
                 else{
                     System.out.println("no success!");
@@ -222,11 +287,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             }
         });
     }
+    */
 
+    /*
     private void cleanHtml(){
         Document doc = Jsoup.parse(htmlString);
         Element parsed = doc.select("table[class=schematabell]").first();
-        htmlString = parsed.toString() + "<style type=\"text\\css\">p{color:red;}</style>";
+      //  htmlString = parsed.toString() + "<style type=\"text\\css\">p{color:red;}</style>";
       //  System.out.println(htmlString);
 
     }
@@ -240,40 +307,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         endDate = df.format(date);
     }
-
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //Button btnSearch = findViewById(R.id.btnSearch);
-       // btnSearch.setOnClickListener(this);
         dropDownEntries();
         dropDownYearEntries();
-
-
-
-
-        /*
-        chkBxDefault = findViewById(R.id.checkBoxDefault);
-        chkBxDefault.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Toast.makeText(MainActivity.this, "Saved as default", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(MainActivity.this, "Removed as default", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });*/
-
-
-
-
     }
-
-
-
 }

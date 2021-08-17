@@ -2,21 +2,23 @@
 body{
     display:flex;
     justify-content:center;
-    background-color:#333233;
+    background-color:#5a1863;
+    flex-direction:column;
+    font-size:9px;
 }
-
+/* #5a1863 */
 .data-grey{
-    background-color:#b734eb;
+    background-color:#694067;
 }
 .data-white{
-    background-color:#d587f5;
+    background-color:#A86CA5;
 }
 
 .data{
-    color:white;
+    color:#EDF0D1;
 }
 h1{
-    color:green;
+    color:white;
 }
 
 p{
@@ -25,4 +27,12 @@ p{
 
 a{
     color:black;
+}
+
+.header{
+    color:white;
+}
+
+.errorMsg{
+    font-size:30px;
 }
