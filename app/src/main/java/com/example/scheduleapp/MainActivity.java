@@ -1,47 +1,15 @@
 package com.example.scheduleapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
-import android.app.AsyncNotedAppOp;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.view.View;
-
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.Button;
 import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Year;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-
-import static android.widget.AdapterView.*;
-
 
 public class MainActivity extends AppCompatActivity implements OnClickListener {
 
@@ -98,9 +66,9 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     //Launches the ScheduleActivity
     public void displaySchedule(View v){
-        System.out.println("*************************");
-        System.out.println("program: " + ProgramValue);
-        System.out.println("year: " + YearValue);
+     //   System.out.println("*************************");
+     //   System.out.println("program: " + ProgramValue);
+     //   System.out.println("year: " + YearValue);
         Intent i = new Intent(this, ScheduleActivity.class);
        // Toast.makeText(this, "p: " + ProgramValue + " y: " + YearValue, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
@@ -140,7 +108,6 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         yearList.add(3);
         yearList.add(4);
         yearList.add(5);
-
 
         ArrayAdapter<Integer> programAdapter = new ArrayAdapter<>(
                 this,

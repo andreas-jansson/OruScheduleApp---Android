@@ -13,7 +13,7 @@
         android:id="@+id/btnSearch"
         android:layout_width="220dp"
         android:layout_height="49dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="124dp"
         android:background="@drawable/rounded_corner"
         android:onClick="displaySchedule"
         android:text="Search"
@@ -26,13 +26,13 @@
     <Spinner
         android:id="@+id/spinnerPrograms"
         android:layout_width="220dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="208dp"
+        android:layout_height="49dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/rounded_corner_spinner"
         android:scrollbars="vertical"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/spinnerYear"
-        app:layout_constraintHorizontal_bias="0.798"
+        app:layout_constraintHorizontal_bias="0.86"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -54,27 +54,26 @@
 
     <Spinner
         android:id="@+id/spinnerYear"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
+        android:layout_width="49dp"
+        android:layout_height="49dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
         android:background="@drawable/rounded_corner_spinner"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.932" />
+        app:layout_constraintVertical_bias="0.921" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="112dp"
         android:text="TekNat Schedule"
         android:textColor="#FFFFFF"
         android:textSize="40sp"
         android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -94,13 +93,13 @@
         android:id="@+id/aboutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="48dp"
         android:background="@drawable/rounded_corner_aboutbtn"
         android:onClick="displayAbout"
         android:text="About"
         android:textColor="#EDE4E4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.728"
+        app:layout_constraintHorizontal_bias="0.457"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toBottomOf="@+id/btnSearch" />
 

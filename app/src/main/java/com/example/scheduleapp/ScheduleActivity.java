@@ -2,42 +2,21 @@ package com.example.scheduleapp;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
-import android.text.method.ScrollingMovementMethod;
-import android.view.View;
-
-import android.view.View.OnClickListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.AdapterView;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
-import android.widget.Button;
 import android.widget.Toast;
-import android.widget.Spinner;
-import android.widget.ArrayAdapter;
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.Year;
-import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
-import android.os.Bundle;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -191,20 +170,21 @@ public class ScheduleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
 
-        System.out.println("****####*****");
+     //   System.out.println("****####*****");
         Intent intent = getIntent();
         ProgramValue = intent.getStringExtra(MainActivity.EXTRA_TEXT2);
         YearValue = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_TEXT3));
-        System.out.println("ProgramValue: " + ProgramValue);
-        System.out.println("YearValue: " + YearValue);
+     //   System.out.println("ProgramValue: " + ProgramValue);
+     //   System.out.println("YearValue: " + YearValue);
 
         String url = GetStringPicker();
-        System.out.println("***url: " + url);
+     //   System.out.println("***url: " + url);
 
         if(url.equals("No program selected")){
-
+            //needs clean up
         }
         else if(url.equals("No schedule found")){
+            //needs clean up
 
         }
         else{
@@ -214,7 +194,7 @@ public class ScheduleActivity extends AppCompatActivity {
         int timer = 0;
 
         while((htmlString==null && !url.equals("No program selected") && !url.equals("No schedule found")) || timer > 300){
-            //waits for API, super bad solution :))
+            //waits for API or 3s, super bad solution :))
             try {
                 timer += 10;
                 Thread.sleep(100);
@@ -223,7 +203,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println("***After while");
+      //  System.out.println("***After while");
 
 
         WebView wv = findViewById(R.id.htmlWebView);
