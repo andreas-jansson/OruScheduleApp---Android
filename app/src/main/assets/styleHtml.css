@@ -1,4 +1,4 @@
-
+/*
 body{
     display:flex;
     justify-content:center;
@@ -6,7 +6,6 @@ body{
     flex-direction:column;
     font-size:9px;
 }
-/* #5a1863 */
 .data-grey{
     background-color:#694067;
 }
@@ -35,4 +34,52 @@ a{
 
 .errorMsg{
     font-size:30px;
+}
+*/
+/* nytt */
+/* #5a1863 */
+
+body{
+    display:flex;
+    justify-content:center;
+    background-color:#5a1863;
+    flex-direction:column;
+}
+
+h1{
+    color:white;
+    font-size:60px;
+}
+
+table{
+    border: none;
+}
+
+.cell{
+    width:100%;
+    height:70px;
+    font-size:50px;
+    background-color:#E7C9FB;
+    border: 0;
+
+}
+
+.day-date{
+    background-color:#5a1863;
+    color:white;
+    font-family:Verdana, Geneva, Sans-serif;
+    font-size:55px;
+    height:80px;
+    font-weight: bold;
+
+}
+
+.class-desc{
+    color:#636262;
+    font-style: italic;
+    height:auto;
+}
+
+.class{
+    color:#0082FF;
 }

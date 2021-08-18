@@ -2,11 +2,18 @@ package com.example.scheduleapp;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Display;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -20,6 +27,7 @@ import okhttp3.Response;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 public class ScheduleActivity extends AppCompatActivity {
     private String endDate;
@@ -67,11 +75,20 @@ public class ScheduleActivity extends AppCompatActivity {
                     "Ind+design+och+produktutv+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Datateknik - Civilingenjör")){
+            if(YearValue == 1 || YearValue == 2){
+                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                        "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+datateknik+%C3%A5k+"+ YearValue;
+            }
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+datateknik+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("industriell ekonomi - Civilingenjör")){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+
+            if(YearValue == 1 || YearValue == 2) {
+                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                        "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+industriell+ekonomi+%C3%A5k+"+ YearValue;
+            }
+                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+industriell+ekonomi+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Biologiprogrammet") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
@@ -147,6 +164,71 @@ public class ScheduleActivity extends AppCompatActivity {
         Element parsed = doc.select("table[class=schematabell]").first();
         htmlString = parsed.toString();
         //  System.out.println(htmlString);
+        cleanHtmlPretty();
+    }
+
+    private void cleanHtmlPretty(){
+        System.out.println("****####*****");
+        System.out.println("PrettyHtml");
+
+        Document doc = Jsoup.parse(htmlString);
+        doc.select("td[class=blank]").remove();
+        doc.select("td[class=vecka data]").remove();
+        Elements parsed = doc.select("td");
+
+        Integer index = 1;
+        Integer jndex = 1;
+
+        String customHtml="<table class=\"schemaTabell\" cellspacing=\"0\" cellpadding=\"0\" >";
+
+        for (Element element : parsed) {
+        if(index == 1){
+            //do nothing
+        }
+        else if(index == 2){
+           // System.out.println("dag: " + element.text());
+            customHtml = customHtml + "<tr><td class=\"cell day-date\">" + element.text(); //day
+        }
+        else if(index == 3){
+          //  System.out.println("datum: " + element.text());
+            customHtml = customHtml + element.text() + "</td></tr>"; //date
+        }
+        else if(index == 4){
+           //     System.out.println("tid: " + element.text());
+                customHtml = customHtml + "<tr><td class=\"cell time\">" + element.text() + "</td></tr>"; //start-end time
+        }
+        else if(index == 5){
+        //        System.out.println("Klass: " + element.text());
+                customHtml = customHtml + "<tr><td class=\"cell class\">" + element.text() + "</td></tr>"; //class
+
+        }
+        else if(index == 6){
+            //do nothing
+        }
+        else if(index == 7){
+         //   System.out.println("Lokal: " + element.text());
+            customHtml = customHtml + "<tr><td class=\"cell location\">" + element.text() + "</td></tr>"; //location
+        }
+        else if(index == 8){
+            //Do nothing
+        }
+        else if(index == 9){
+      //      System.out.println("Lokal: " + element.text());
+            customHtml = customHtml + "<tr><td class=\"cell class-desc\">" + element.text() + "</td></tr>"; //class description
+        }
+        else if(index == 10){
+            customHtml = customHtml + "<tr><td class=\"cell spacer\"></td></tr><tr><td class=\"cell spacer\"></td></tr>"; //spacing between days
+            index=0;
+        }
+        index++;
+    }
+        htmlString = customHtml + "</table>";
+
+
+        //htmlString = parsed.toString();
+       // System.out.println("*** CUSTOM ***");
+       // System.out.println(customHtml);
+
 
     }
 
@@ -164,12 +246,18 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule);
         getSupportActionBar().hide();
+
+        WebView browser = (WebView) findViewById(R.id.htmlWebView);
+        browser.getSettings().setLoadWithOverviewMode(true);
+        browser.getSettings().setUseWideViewPort(true);
+
 
         //   System.out.println("****####*****");
         Intent intent = getIntent();
@@ -216,7 +304,7 @@ public class ScheduleActivity extends AppCompatActivity {
             htmlString="<link rel=\"stylesheet\" type=\"text/css\" href=\"styleHtml.css\" /><body><h1 class=\"errorMsg\">No program selected :(</body>";
             wv.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
         }
-        else if(url.equals("No schedule found")){
+        else if(url.equals("No schedule found") || htmlString == null){
             Toast.makeText(this, "No schedule found", Toast.LENGTH_SHORT).show();
             htmlString="<link rel=\"stylesheet\" type=\"text/css\" href=\"styleHtml.css\" /><body><h1 class=\"errorMsg\">No schedule found :(</body>";
             wv.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);

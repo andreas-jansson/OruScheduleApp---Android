@@ -1,13 +1,17 @@
 package com.example.scheduleapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
@@ -18,61 +22,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private String ProgramValue;
     private int YearValue;
     private String YearValueString;
-    private Spinner dropdown;
+    private Spinner dropdownProgram;
+    private Spinner dropdownYear;
     public static String EXTRA_TEXT2="com.example.ScheduleApp.EXTRA_TEXT2";
     public static String EXTRA_TEXT3="com.example.ScheduleApp.EXTRA_TEXT3";
-
-    /*
-    private class AsyncLoadSchedule extends AsyncTask<Void, Void, Boolean>{
-
-
-        @Override
-        protected void onPreExecute() {
-            htmlString=null;
-            super.onPreExecute();
-
-        }
-
-
-        protected Boolean doInBackground(Void... aVoid) {
-            getScheduleAPI();
-
-            if(htmlString == null){
-                return false;
-            }
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
-
-            if(aBoolean == true){
-
-            }
-            else{
-
-            }
-        }
-    }
-
-
-    public void loadSchedulePage(View v){
-        Intent i = new Intent(this, ScheduleActivity.class);
-        if(htmlString != null){
-            i.putExtra(EXTRA_TEXT, htmlString);
-            startActivity(i);
-        }
-    }
-*/
+    private String savedProgram;
+    private Integer savedYear;
+    private boolean savedIsChecked=false;
+    private boolean isChecked=false;
+    SharedPreferences sp;
 
     //Launches the ScheduleActivity
     public void displaySchedule(View v){
-     //   System.out.println("*************************");
-     //   System.out.println("program: " + ProgramValue);
-     //   System.out.println("year: " + YearValue);
+      //  isChecked = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
+      //  System.out.println("****************");
+      //  System.out.println("isChecked: " + isChecked);
+      //  if(isChecked == true){
+      //      saveSettings();
+      //  }
+        saveSettings();
         Intent i = new Intent(this, ScheduleActivity.class);
-       // Toast.makeText(this, "p: " + ProgramValue + " y: " + YearValue, Toast.LENGTH_SHORT).show();
         Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
 
         i.putExtra(EXTRA_TEXT2, ProgramValue);
@@ -86,9 +55,75 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         startActivity(i);
     }
 
-    // --------- Tidigare funktioner ------------//
+    public void saveSettings(){
+        isChecked = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
+        sp = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
 
-    @Override
+        if(!ProgramValue.equals("Select Program") && ProgramValue != null && isChecked == true){
+            savedProgram = ProgramValue;
+            savedYear = YearValue;
+            savedIsChecked = isChecked;
+            editor.putString("program", savedProgram);
+            editor.putInt("year", savedYear);
+            editor.putBoolean("checked", savedIsChecked);
+            editor.commit();
+
+            System.out.println("******SAVING!******");
+            System.out.println("program: " + savedProgram);
+            System.out.println("year: " + savedYear);
+            System.out.println("checked: " + savedIsChecked);
+        }
+        else{
+            editor.putString("program", "");
+            editor.putInt("year", 0);
+            editor.putBoolean("checked", false);
+            editor.commit();
+
+            System.out.println("******SAVING!******");
+            System.out.println("program: " + "");
+            System.out.println("year: " + 0);
+            System.out.println("checked: " + false);
+        }
+    }
+
+    public void loadSettings() {
+        SharedPreferences sp = getApplicationContext().getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String program = sp.getString("program", "");
+        Integer year = sp.getInt("year", 0);
+        Boolean checked = sp.getBoolean("checked", false);
+        System.out.println("******LOADING!******");
+        System.out.println("program: " + savedProgram);
+        System.out.println("year: " + savedYear);
+        System.out.println("checked: " + savedIsChecked);
+        if(!program.equals("")){
+            savedProgram = program;
+            savedYear = year;
+            savedIsChecked = checked;
+
+            if(savedIsChecked == true){
+
+                for (int i=0;i<dropdownProgram.getCount();i++){
+                    if (dropdownProgram.getItemAtPosition(i).toString().equalsIgnoreCase(savedProgram)){
+                        dropdownProgram.setSelection(i);
+                        break;
+                    }
+                }
+
+                for (int i=0;i<dropdownYear.getCount();i++){
+                    if (dropdownYear.getItemAtPosition(i) == savedYear){
+                        dropdownYear.setSelection(i);
+                        break;
+                    }
+                }
+                CheckBox box = ((CheckBox) findViewById(R.id.checkBox));
+                box.setChecked(true);
+            }
+
+        }
+    }
+
+        @Override
     public void onClick(View v) {
         System.out.println("View: " + v.getId());
         switch(v.getId()) {
@@ -102,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     protected void dropDownYearEntries(){
-        dropdown = findViewById(R.id.spinnerYear);
+        dropdownYear = findViewById(R.id.spinnerYear);
 
         final ArrayList<Integer> yearList = new ArrayList<>();
         yearList.add(1);
@@ -116,10 +151,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 android.R.layout.simple_list_item_1,
                 yearList
         );
-        dropdown.setAdapter(programAdapter);
+        dropdownYear.setAdapter(programAdapter);
 
         //Saves the selected spinner value to variable ProgramValue
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        dropdownYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 YearValue = Integer.parseInt(parent.getItemAtPosition(pos).toString());
             }
@@ -132,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     //populates the dropdown menu and gets the selected value
     protected void dropDownEntries(){
-        dropdown = findViewById(R.id.spinnerPrograms);
+        dropdownProgram = findViewById(R.id.spinnerPrograms);
 
         final ArrayList<String> programList = new ArrayList<>();
         programList.add("Select Program");
@@ -155,10 +190,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 android.R.layout.simple_list_item_1,
                 programList
         );
-        dropdown.setAdapter(programAdapter);
+        dropdownProgram.setAdapter(programAdapter);
 
         //Saves the selected spinner value to variable ProgramValue
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        dropdownProgram.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 ProgramValue = parent.getItemAtPosition(pos).toString();
             }
@@ -169,124 +204,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
-    /*
-    //Launches the ScheduleActivity
-    public void displaySchedule(View v){
-        System.out.println("program: " + ProgramValue);
-        System.out.println("year: " + YearValue);
-
-       // getScheduleAPI();
-
-        Intent i = new Intent(this, ScheduleActivity.class);
-        Toast.makeText(this, "html: " + htmlString + "p: " + ProgramValue + " y: " + YearValue, Toast.LENGTH_SHORT).show();
-
-        if(htmlString != null){
-            i.putExtra(EXTRA_TEXT, htmlString);
-            htmlString=null;
-            startActivity(i);
-        }
-    }*/
-
-    /*
-    public String GetStringPicker(){
-        GetEndDate();
-
-        if(ProgramValue == "Datateknik - Högskoleingenjör"){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
-                    "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
-                    "Datateknik+%C3%A5k+"+ YearValue +"-";
-        }
-        else if(ProgramValue == "Byggteknik - Högskoleingenjör"){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
-                    "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
-                    "Byggteknik+%C3%A5k+"+ YearValue +"-";
-        }
-        else if(ProgramValue == "Maskinteknik - Högskoleingenjör"){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&islutDatum="+ endDate +"&sprak=SV" +
-                    "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
-                    "Maskinteknik+%C3%A5k+"+ YearValue +"-";
-        }
-        else if(ProgramValue == "Industriell ekonomi - Högskoleingenjör"){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
-                    "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
-                    "Industriell+ekonomi+%C3%A5k+"+ YearValue +"-";
-        }
-        else if(ProgramValue == "Ind design och produktutv - Högskoleingenjör"){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
-                    "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
-                    "Ind+design+och+produktutv+%C3%A5k+"+ YearValue +"-";
-        }
-        else{
-            return "";
-        }
-
-    }
-    */
-
-    /*
-    public void getScheduleAPI(){
-        String url = GetStringPicker();
-        OkHttpClient client = new OkHttpClient();
-        Request request = new Request.Builder()
-                .url(url)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                System.out.println("failure!");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if(response.isSuccessful()){
-                    htmlString = response.body().string();
-                   // System.out.println(htmlString);
-                    System.out.println("success!");
-                    cleanHtml();
-                }
-                else{
-                    System.out.println("no success!");
-                }
-            }
-        });
-    }
-    */
-
-    /*
-    private void cleanHtml(){
-        Document doc = Jsoup.parse(htmlString);
-        Element parsed = doc.select("table[class=schematabell]").first();
-      //  htmlString = parsed.toString() + "<style type=\"text\\css\">p{color:red;}</style>";
-      //  System.out.println(htmlString);
-
-    }
-
-    private void GetEndDate(){
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.add(Calendar.DATE, 30);
-        date = cal.getTime();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        endDate = df.format(date);
-    }
-*/
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-       // requestWindowFeature(Window.FEATURE_NO_TITLE);
-      //  this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getSupportActionBar().hide();
 
         dropDownEntries();
         dropDownYearEntries();
+        loadSettings();
+
+
     }
 }
