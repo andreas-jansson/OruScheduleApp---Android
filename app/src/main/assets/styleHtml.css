@@ -53,6 +53,10 @@ h1{
 
 table{
     border: none;
+    border-collapse: collapse;
+}
+td{
+    border: 0;
 }
 
 .cell{
@@ -61,7 +65,6 @@ table{
     font-size:50px;
     background-color:#E7C9FB;
     border: 0;
-
 }
 
 .day-date{
@@ -74,10 +77,18 @@ table{
 
 }
 
+.empty{
+    background-color:#E7C9FB;
+}
+
 .class-desc{
     color:#636262;
     font-style: italic;
     height:auto;
+}
+
+.sameDay{
+  border-top: 3px dashed #4C4C4C;
 }
 
 .class{

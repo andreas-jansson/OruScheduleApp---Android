@@ -36,6 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
+
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
@@ -43,6 +44,7 @@
         android:layout_marginBottom="84dp"
         android:text="Set as default"
         android:textColor="#F4F6F6"
+        android:textColorHighlight="#03A9F4"
         android:textColorHint="#FBFBFB"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +52,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSearch"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.24" />
 
     <Spinner
         android:id="@+id/spinnerYear"
@@ -93,13 +95,13 @@
         android:id="@+id/aboutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="68dp"
         android:background="@drawable/rounded_corner_aboutbtn"
         android:onClick="displayAbout"
         android:text="About"
         android:textColor="#EDE4E4"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.372"
         app:layout_constraintStart_toEndOf="@+id/checkBox"
         app:layout_constraintTop_toBottomOf="@+id/btnSearch" />
 

@@ -35,11 +35,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     //Launches the ScheduleActivity
     public void displaySchedule(View v){
       //  isChecked = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
-      //  System.out.println("****************");
-      //  System.out.println("isChecked: " + isChecked);
-      //  if(isChecked == true){
-      //      saveSettings();
-      //  }
+        System.out.println("****** Searching ********");
+        System.out.println("Program: " + ProgramValue);
+        System.out.println("Year: " + YearValue);
+
         saveSettings();
         Intent i = new Intent(this, ScheduleActivity.class);
         Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
@@ -75,12 +74,15 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             System.out.println("checked: " + savedIsChecked);
         }
         else{
-            editor.putString("program", "");
-            editor.putInt("year", 0);
-            editor.putBoolean("checked", false);
+            savedIsChecked = false;
+            savedYear = 0;
+            savedProgram = "";
+            editor.putString("program", savedProgram);
+            editor.putInt("year", savedYear);
+            editor.putBoolean("checked", savedIsChecked);
             editor.commit();
 
-            System.out.println("******SAVING!******");
+            System.out.println("******SAVING! FALSE ******");
             System.out.println("program: " + "");
             System.out.println("year: " + 0);
             System.out.println("checked: " + false);

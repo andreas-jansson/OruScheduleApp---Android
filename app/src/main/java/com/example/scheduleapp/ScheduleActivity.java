@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 import okhttp3.Call;
@@ -35,12 +36,12 @@ public class ScheduleActivity extends AppCompatActivity {
     private Integer YearValue;
     public String htmlString=null;
 
-
     public String GetStringPicker(){
         System.out.println("****####*****");
         System.out.println("GetStringPicker");
         GetEndDate();
         System.out.println("program: " + ProgramValue);
+        System.out.println("year: " + YearValue);
         System.out.println("endDate: " + endDate);
 
 
@@ -148,7 +149,7 @@ public class ScheduleActivity extends AppCompatActivity {
                     htmlString = response.body().string();
                     // System.out.println(htmlString);
                     System.out.println("success!");
-                    cleanHtml();
+                   // cleanHtml();
                 }
                 else{
                     System.out.println("no success!");
@@ -168,6 +169,7 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
     private void cleanHtmlPretty(){
+        boolean sameDay=false;
         System.out.println("****####*****");
         System.out.println("PrettyHtml");
 
@@ -177,7 +179,6 @@ public class ScheduleActivity extends AppCompatActivity {
         Elements parsed = doc.select("td");
 
         Integer index = 1;
-        Integer jndex = 1;
 
         String customHtml="<table class=\"schemaTabell\" cellspacing=\"0\" cellpadding=\"0\" >";
 
@@ -186,16 +187,29 @@ public class ScheduleActivity extends AppCompatActivity {
             //do nothing
         }
         else if(index == 2){
-           // System.out.println("dag: " + element.text());
-            customHtml = customHtml + "<tr><td class=\"cell day-date\">" + element.text(); //day
+            if(element.text().equals("")){
+         //       System.out.println("dag e: " + element.text());
+                customHtml = customHtml + "<tr><td class=\"cell empty day-date\">" + element.text(); //day
+                sameDay=true;
+            }
+            else{
+     //           System.out.println("dag f: " + element.text());
+                customHtml = customHtml + "<tr><td class=\"cell day-date\">" + element.text(); //day
+            }
         }
         else if(index == 3){
-          //  System.out.println("datum: " + element.text());
+     //       System.out.println("datum: " + element.text());
             customHtml = customHtml + element.text() + "</td></tr>"; //date
         }
         else if(index == 4){
-           //     System.out.println("tid: " + element.text());
+      //          System.out.println("tid: " + element.text());
+            if(sameDay==true){
+                customHtml = customHtml + "<tr><td class=\"cell sameDay time\">" + element.text() + "</td></tr>"; //start-end time
+            }
+            else{
                 customHtml = customHtml + "<tr><td class=\"cell time\">" + element.text() + "</td></tr>"; //start-end time
+            }
+            sameDay=false;
         }
         else if(index == 5){
         //        System.out.println("Klass: " + element.text());
@@ -206,14 +220,14 @@ public class ScheduleActivity extends AppCompatActivity {
             //do nothing
         }
         else if(index == 7){
-         //   System.out.println("Lokal: " + element.text());
+   //         System.out.println("Lokal: " + element.text());
             customHtml = customHtml + "<tr><td class=\"cell location\">" + element.text() + "</td></tr>"; //location
         }
         else if(index == 8){
             //Do nothing
         }
         else if(index == 9){
-      //      System.out.println("Lokal: " + element.text());
+  //          System.out.println("Lokal: " + element.text());
             customHtml = customHtml + "<tr><td class=\"cell class-desc\">" + element.text() + "</td></tr>"; //class description
         }
         else if(index == 10){
@@ -223,11 +237,8 @@ public class ScheduleActivity extends AppCompatActivity {
         index++;
     }
         htmlString = customHtml + "</table>";
-
-
-        //htmlString = parsed.toString();
-       // System.out.println("*** CUSTOM ***");
-       // System.out.println(customHtml);
+        System.out.println("*** CUSTOM ***");
+        System.out.println(htmlString);
 
 
     }
