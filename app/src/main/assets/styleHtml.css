@@ -106,3 +106,10 @@ td{
 .class{
     color:#0082FF;
 }
+
+.errorMsg{
+    width:100vw;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 90px;
+}
