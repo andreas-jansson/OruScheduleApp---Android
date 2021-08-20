@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.Display;
@@ -35,6 +36,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private String ProgramValue;
     private Integer YearValue;
     public String htmlString=null;
+    public String url=null;
 
     public String GetStringPicker(){
         System.out.println("****####*****");
@@ -83,7 +85,7 @@ public class ScheduleActivity extends AppCompatActivity {
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+datateknik+%C3%A5k+"+ YearValue +"-";
         }
-        else if(ProgramValue.equals("industriell ekonomi - Civilingenjör")){
+        else if(ProgramValue.equals("Industriell ekonomi - Civilingenjör")){
 
             if(YearValue == 1 || YearValue == 2) {
                 return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
@@ -125,7 +127,38 @@ public class ScheduleActivity extends AppCompatActivity {
 
     }
 
-    public void getScheduleAPI(String url){
+    class Async extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected Void doInBackground(Void... voids) {
+            System.out.println("*** doInBackground Triggered ***");
+            System.out.println("Thread bkgrnd: " + android.os.Process.getThreadPriority(android.os.Process.myTid()));
+            OkHttpClient client = new OkHttpClient();
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+            client.newCall(request).enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    e.printStackTrace();
+                    System.out.println("failure!");
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    if(response.isSuccessful()){
+                        htmlString = response.body().string();
+                    }
+                    else{
+                        System.out.println("no success!");
+                    }
+                }
+            });
+            return null;
+        }
+
+    }
+
+    public void getScheduleAPI2(String url){
         System.out.println("****####*****");
         System.out.println("GetScheduleAPI");
      //   String url = GetStringPicker();
@@ -147,8 +180,6 @@ public class ScheduleActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 if(response.isSuccessful()){
                     htmlString = response.body().string();
-                    // System.out.println(htmlString);
-                    System.out.println("success!");
                    // cleanHtml();
                 }
                 else{
@@ -163,9 +194,17 @@ public class ScheduleActivity extends AppCompatActivity {
         System.out.println("cleanHtml");
         Document doc = Jsoup.parse(htmlString);
         Element parsed = doc.select("table[class=schematabell]").first();
-        htmlString = parsed.toString();
+        if(parsed != null) {
+            htmlString = parsed.toString();
+            cleanHtmlPretty();
+
+        }
+        else{
+            System.out.println("***Setting null");
+            htmlString=null;
+            return;
+        }
         //  System.out.println(htmlString);
-        cleanHtmlPretty();
     }
 
     private void cleanHtmlPretty(){
@@ -189,7 +228,7 @@ public class ScheduleActivity extends AppCompatActivity {
         else if(index == 2){
             if(element.text().equals("")){
          //       System.out.println("dag e: " + element.text());
-                customHtml = customHtml + "<tr><td class=\"cell empty day-date\">" + element.text(); //day
+          //      customHtml = customHtml + "<tr><td class=\"cell empty day-date\">" + element.text(); //day
                 sameDay=true;
             }
             else{
@@ -221,7 +260,12 @@ public class ScheduleActivity extends AppCompatActivity {
         }
         else if(index == 7){
    //         System.out.println("Lokal: " + element.text());
-            customHtml = customHtml + "<tr><td class=\"cell location\">" + element.text() + "</td></tr>"; //location
+            if(element.text().equals("")){
+
+            }
+            else{
+                customHtml = customHtml + "<tr><td class=\"cell location\">" + element.text() + "</td></tr>"; //location
+            }
         }
         else if(index == 8){
             //Do nothing
@@ -231,7 +275,7 @@ public class ScheduleActivity extends AppCompatActivity {
             customHtml = customHtml + "<tr><td class=\"cell class-desc\">" + element.text() + "</td></tr>"; //class description
         }
         else if(index == 10){
-            customHtml = customHtml + "<tr><td class=\"cell spacer\"></td></tr><tr><td class=\"cell spacer\"></td></tr>"; //spacing between days
+          //  customHtml = customHtml + "<tr><td class=\"cell spacer\"></td></tr><tr><td class=\"cell spacer\"></td></tr>"; //spacing between days
             index=0;
         }
         index++;
@@ -277,9 +321,8 @@ public class ScheduleActivity extends AppCompatActivity {
      //   System.out.println("ProgramValue: " + ProgramValue);
      //   System.out.println("YearValue: " + YearValue);
 
-        String url = GetStringPicker();
-     //   System.out.println("***url: " + url);
-
+        url = GetStringPicker();
+        System.out.println("Thread main: " + android.os.Process.getThreadPriority(android.os.Process.myTid()));
         if(url.equals("No program selected")){
             //needs clean up
         }
@@ -288,11 +331,11 @@ public class ScheduleActivity extends AppCompatActivity {
 
         }
         else{
-            getScheduleAPI(url);
+            Async call = new Async();
+            call.execute();
         }
 
         int timer = 0;
-
         while((htmlString==null && !url.equals("No program selected") && !url.equals("No schedule found")) || timer > 300){
             //waits for API or 3s, super bad solution :))
             try {
@@ -303,12 +346,12 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         }
 
-      //  System.out.println("***After while");
-
-
         WebView wv = findViewById(R.id.htmlWebView);
         wv.getSettings().setUseWideViewPort(true);
         WebSettings ws = wv.getSettings();
+        if(htmlString != null){
+            cleanHtml();
+        }
 
         if(url.equals("No program selected")){
             Toast.makeText(this, "No program selected", Toast.LENGTH_SHORT).show();
@@ -321,20 +364,10 @@ public class ScheduleActivity extends AppCompatActivity {
             wv.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
         }
         else{
-            cleanHtml();
-         //   System.out.println("***htmlString: " + htmlString);
-         //   WebView wv = findViewById(R.id.htmlWebView);
-         //   wv.getSettings().setUseWideViewPort(true);
-            htmlString = "<link rel=\"stylesheet\" type=\"text/css\" href=\"styleHtml.css\" /><body><h1>" + ProgramValue + " year: " + YearValue + "</h1>" + htmlString + "</body>";
-          //  System.out.println(htmlString);
+          //  cleanHtml();
+            htmlString = "<link rel=\"stylesheet\" type=\"text/css\" href=\"styleHtml.css\" /><body><div class=\"header\"><h1>" + ProgramValue + "<br> year: " + YearValue + "</h1></div>" + htmlString + "</body>";
             wv.loadDataWithBaseURL("file:///android_asset/", htmlString, "text/html", "UTF-8", null);
-           // WebSettings ws = wv.getSettings();
-            //ws.setJavaScriptEnabled(true);
         }
         ws.setJavaScriptEnabled(true);
-
-
-
-
     }
 }

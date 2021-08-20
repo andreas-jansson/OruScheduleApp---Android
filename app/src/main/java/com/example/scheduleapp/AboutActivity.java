@@ -17,7 +17,7 @@ public class AboutActivity extends AppCompatActivity {
         TextView textView3 = (TextView) findViewById(R.id.textView3);
         textView3.setText("This app is the result of a one week spare time mini project.\n" +
                 "It was created to allow easy access to the schedule\n" +
-                "and probably contains a lot of bugs\n" +
+                "and probably contains some bugs\n" +
                 "\n:)\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
                 "Created by: Andréas Jansson\n" +
                 "Datateknik - Högskoleingenjör(2019-2022)\n" +

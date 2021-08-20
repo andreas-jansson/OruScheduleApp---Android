@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -173,18 +174,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         final ArrayList<String> programList = new ArrayList<>();
         programList.add("Select Program");
-        programList.add("Datateknik - Högskoleingenjör");
+        programList.add("Analysvetenskap. pgm i kemi med inr. forensik");
         programList.add("Byggteknik - Högskoleingenjör");
-        programList.add("Maskinteknik - Högskoleingenjör");
+        programList.add("Datateknik - Högskoleingenjör");
         programList.add("Industriell ekonomi - Högskoleingenjör");
         programList.add("Ind design och produktutv - Högskoleingenjör");
+        programList.add("Maskinteknik - Högskoleingenjör");
         programList.add("Datateknik - Civilingenjör");
-        programList.add("industriell ekonomi - Civilingenjör");
-        programList.add("Analysvetenskap. pgm i kemi med inr. forensik");
+        programList.add("Industriell ekonomi - Civilingenjör");
+        programList.add("Masterprogram i kemi med inrikt. miljöforensik");
         programList.add("Matematikerprogrammet");
         programList.add("Måltidsekologprogrammet");
         programList.add("Tekniskt basår");
-        programList.add("Masterprogram i kemi med inrikt. miljöforensik");
 
 
         ArrayAdapter<String> programAdapter = new ArrayAdapter<>(
@@ -211,7 +212,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_main);
         dropDownEntries();
         dropDownYearEntries();
         loadSettings();

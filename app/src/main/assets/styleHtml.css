@@ -44,11 +44,23 @@ body{
     justify-content:center;
     background-color:#5a1863;
     flex-direction:column;
+    margin:0;
+    padding:0;
+    width:100vw;
+    height:auto;
 }
 
 h1{
     color:white;
     font-size:60px;
+}
+
+.header{
+    background-color:#5a1863;
+    margin:0;
+    padding:0;
+    width:100vw;
+    height:auto;
 }
 
 table{
