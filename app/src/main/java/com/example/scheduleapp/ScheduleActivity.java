@@ -39,13 +39,7 @@ public class ScheduleActivity extends AppCompatActivity {
     public String url=null;
 
     public String GetStringPicker(){
-        System.out.println("****####*****");
-        System.out.println("GetStringPicker");
         GetEndDate();
-        System.out.println("program: " + ProgramValue);
-        System.out.println("year: " + YearValue);
-        System.out.println("endDate: " + endDate);
-
 
         if(ProgramValue.equals("Datateknik - Högskoleingenjör") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
@@ -130,8 +124,6 @@ public class ScheduleActivity extends AppCompatActivity {
     class Async extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... voids) {
-            System.out.println("*** doInBackground Triggered ***");
-            System.out.println("Thread bkgrnd: " + android.os.Process.getThreadPriority(android.os.Process.myTid()));
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(url)
@@ -140,7 +132,7 @@ public class ScheduleActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     e.printStackTrace();
-                    System.out.println("failure!");
+                    return;
                 }
 
                 @Override
@@ -155,7 +147,6 @@ public class ScheduleActivity extends AppCompatActivity {
             });
             return null;
         }
-
     }
 
     public void getScheduleAPI2(String url){
@@ -314,15 +305,12 @@ public class ScheduleActivity extends AppCompatActivity {
         browser.getSettings().setUseWideViewPort(true);
 
 
-        //   System.out.println("****####*****");
         Intent intent = getIntent();
         ProgramValue = intent.getStringExtra(MainActivity.EXTRA_TEXT2);
         YearValue = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_TEXT3));
-     //   System.out.println("ProgramValue: " + ProgramValue);
-     //   System.out.println("YearValue: " + YearValue);
+
 
         url = GetStringPicker();
-        System.out.println("Thread main: " + android.os.Process.getThreadPriority(android.os.Process.myTid()));
         if(url.equals("No program selected")){
             //needs clean up
         }
@@ -333,10 +321,11 @@ public class ScheduleActivity extends AppCompatActivity {
         else{
             Async call = new Async();
             call.execute();
+
         }
 
         int timer = 0;
-        while((htmlString==null && !url.equals("No program selected") && !url.equals("No schedule found")) || timer > 300){
+        while(((htmlString==null && !url.equals("No program selected") && !url.equals("No schedule found"))) && (timer < 300)){
             //waits for API or 3s, super bad solution :))
             try {
                 timer += 10;

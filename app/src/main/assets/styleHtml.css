@@ -108,6 +108,7 @@ td{
 }
 
 .errorMsg{
+    margin-top:60%;
     width:100vw;
     text-align: center;
     vertical-align: middle;
