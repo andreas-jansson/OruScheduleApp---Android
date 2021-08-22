@@ -3,24 +3,26 @@ package com.example.scheduleapp;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
+import java.time.LocalDate;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.Year;
+import java.time.DayOfWeek;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
+import java.time.temporal.WeekFields;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
+
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -35,9 +37,44 @@ public class ScheduleActivity extends AppCompatActivity {
     private String endDate;
     private String ProgramValue;
     private Integer YearValue;
+    private Integer DateValue;
     public String htmlString=null;
     public String url=null;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static class ThisLocalizedWeek {
+
+        // Try and always specify the time zone you're working with
+        private final static ZoneId TZ = ZoneId.of("Europe/Stockholm");
+
+        private final Locale locale;
+        private final DayOfWeek firstDayOfWeek;
+        private final DayOfWeek lastDayOfWeek;
+
+        public ThisLocalizedWeek(final Locale locale) {
+            this.locale = locale;
+            this.firstDayOfWeek = WeekFields.of(locale).getFirstDayOfWeek();
+            this.lastDayOfWeek = DayOfWeek.of(((this.firstDayOfWeek.getValue() + 5) % DayOfWeek.values().length) + 1);
+        }
+
+        public LocalDate getFirstDay() {
+            return LocalDate.now(TZ).with(TemporalAdjusters.previousOrSame(this.firstDayOfWeek));
+        }
+
+        public LocalDate getLastDay() {
+            return LocalDate.now(TZ).with(TemporalAdjusters.nextOrSame(this.lastDayOfWeek));
+        }
+
+        @Override
+        public String toString() {
+            return String.format(   "The %s week starts on %s and ends on %s",
+                    this.locale.getDisplayName(),
+                    this.firstDayOfWeek,
+                    this.lastDayOfWeek);
+        }
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public String GetStringPicker(){
         GetEndDate();
 
@@ -282,15 +319,62 @@ public class ScheduleActivity extends AppCompatActivity {
         System.out.println("****####*****");
         System.out.println("GetEndDate");
         Date date = new Date();
+        // System.out.println("date: " + date);
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        cal.add(Calendar.DATE, 30);
+
+        if(DateValue == 0){
+            endDate = "intervallTyp=d&intervallAntal=1";
+            return;
+        }
+        else if(DateValue == 1){
+            System.out.println("*** 1st day ***");
+            ThisLocalizedWeek test = new ThisLocalizedWeek(Locale.FRANCE);
+            System.out.println("Last!: " + test.getLastDay());
+            endDate=test.getLastDay().toString();
+            return;
+        }
+        else{
+            cal.setTime(date);
+            cal.add(Calendar.DATE, 30);
+        }
+
         date = cal.getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-
         endDate = df.format(date);
+        System.out.println("*** EndDate ***");
+        System.out.println("enddate: " + endDate);
+
+
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void GetEndDate2(){
+        System.out.println("****####*****");
+        System.out.println("GetEndDate");
+
+        LocalDate myObj = LocalDate.now();
+        System.out.println("date now: " + myObj);
+
+
+        if(DateValue == 0){
+            endDate = "intervallTyp=d&intervallAntal=1";
+            return;
+        }
+        else if(DateValue == 1){
+            System.out.println("*** 1st day ***");
+
+        }
+        else{
+
+        }
+
+      /*  SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        endDate = df.format();*/
+        System.out.println("*** EndDate ***");
+        System.out.println("enddate: " + endDate);
+    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -308,9 +392,12 @@ public class ScheduleActivity extends AppCompatActivity {
         Intent intent = getIntent();
         ProgramValue = intent.getStringExtra(MainActivity.EXTRA_TEXT2);
         YearValue = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_TEXT3));
+        DateValue = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_TEXT4));
 
 
         url = GetStringPicker();
+        System.out.println("url: " + url);
+
         if(url.equals("No program selected")){
             //needs clean up
         }

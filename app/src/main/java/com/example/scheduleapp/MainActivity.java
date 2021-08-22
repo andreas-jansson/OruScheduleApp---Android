@@ -13,6 +13,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
@@ -23,14 +25,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private String ProgramValue;
     private int YearValue;
     private String YearValueString;
+    private String DateValueString;
     private Spinner dropdownProgram;
     private Spinner dropdownYear;
     public static String EXTRA_TEXT2="com.example.ScheduleApp.EXTRA_TEXT2";
     public static String EXTRA_TEXT3="com.example.ScheduleApp.EXTRA_TEXT3";
+    public static String EXTRA_TEXT4="com.example.ScheduleApp.EXTRA_TEXT4";
     private String savedProgram;
     private Integer savedYear;
     private boolean savedIsChecked=false;
+    private Integer savedDate=2; //0 today, 1 week, 2 30 days
     private boolean isChecked=false;
+    RadioGroup radioGroup;
+    RadioButton btnDate;
+
+
     SharedPreferences sp;
 
     //Launches the ScheduleActivity
@@ -40,13 +49,16 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         System.out.println("Program: " + ProgramValue);
         System.out.println("Year: " + YearValue);
 
-        saveSettings();
+        saveSettings(v);
         Intent i = new Intent(this, ScheduleActivity.class);
         Toast.makeText(this, "Searching...", Toast.LENGTH_SHORT).show();
 
         i.putExtra(EXTRA_TEXT2, ProgramValue);
         YearValueString = Integer.toString(YearValue);
+        DateValueString= Integer.toString(savedDate);
         i.putExtra(EXTRA_TEXT3, YearValueString);
+        i.putExtra(EXTRA_TEXT4, DateValueString);
+
         startActivity(i);
     }
 
@@ -55,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         startActivity(i);
     }
 
-    public void saveSettings(){
+    public void saveSettings(View v){
         isChecked = ((CheckBox) findViewById(R.id.checkBox)).isChecked();
         sp = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
@@ -64,29 +76,38 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
             savedProgram = ProgramValue;
             savedYear = YearValue;
             savedIsChecked = isChecked;
+            savedDate=checkDateRadio(v);
             editor.putString("program", savedProgram);
             editor.putInt("year", savedYear);
             editor.putBoolean("checked", savedIsChecked);
+            editor.putInt("date", savedDate);
+
             editor.commit();
 
             System.out.println("******SAVING!******");
             System.out.println("program: " + savedProgram);
             System.out.println("year: " + savedYear);
             System.out.println("checked: " + savedIsChecked);
+            System.out.println("date: " + savedDate);
+
         }
         else{
             savedIsChecked = false;
             savedYear = 0;
             savedProgram = "";
+            savedDate=2;
             editor.putString("program", savedProgram);
             editor.putInt("year", savedYear);
             editor.putBoolean("checked", savedIsChecked);
+            editor.putInt("date", savedDate);
             editor.commit();
 
             System.out.println("******SAVING! FALSE ******");
-            System.out.println("program: " + "");
-            System.out.println("year: " + 0);
-            System.out.println("checked: " + false);
+            System.out.println("program: " + savedProgram);
+            System.out.println("year: " + savedYear);
+            System.out.println("checked: " + savedIsChecked);
+            System.out.println("date: " + savedDate);
+
         }
     }
 
@@ -95,15 +116,18 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         String program = sp.getString("program", "");
         Integer year = sp.getInt("year", 0);
         Boolean checked = sp.getBoolean("checked", false);
+        Integer date = sp.getInt("date", 2);
         System.out.println("******LOADING!******");
         System.out.println("program: " + savedProgram);
         System.out.println("year: " + savedYear);
         System.out.println("checked: " + savedIsChecked);
+        System.out.println("date: " + date);
+
         if(!program.equals("")){
             savedProgram = program;
             savedYear = year;
             savedIsChecked = checked;
-
+            savedDate = date;
             if(savedIsChecked == true){
 
                 for (int i=0;i<dropdownProgram.getCount();i++){
@@ -121,6 +145,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                 }
                 CheckBox box = ((CheckBox) findViewById(R.id.checkBox));
                 box.setChecked(true);
+
+              //  setDateRadio();
+                ((RadioButton) radioGroup.getChildAt(savedDate)).setChecked(true);
+
+
             }
 
         }
@@ -207,6 +236,26 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     }
 
+    protected Integer checkDateRadio(View v){
+        int radioID = radioGroup.getCheckedRadioButtonId();
+        btnDate = findViewById(radioID);
+        System.out.println("**** btnDate: " + btnDate.getText());
+        if(btnDate.getText().equals("Today           ")){
+            return 0;
+        }
+        else if(btnDate.getText().equals("This Week")){
+            return 1;
+        }
+        else if(btnDate.getText().equals("30 days upcoming")){
+            return 2;
+        }
+        return 2;
+    }
+
+    protected void setDateRadio() {
+        ((RadioButton) radioGroup.getChildAt(savedDate)).setChecked(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -214,10 +263,11 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         getSupportActionBar().hide();
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_main);
+        radioGroup = findViewById(R.id.radioGroup);
+
         dropDownEntries();
         dropDownYearEntries();
         loadSettings();
-
-
+       // setDateRadio();
     }
 }
