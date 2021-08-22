@@ -14,7 +14,7 @@
         android:id="@+id/btnSearch"
         android:layout_width="220dp"
         android:layout_height="49dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="52dp"
         android:background="@drawable/rounded_corner"
         android:onClick="displaySchedule"
         android:text="Search"
@@ -28,12 +28,12 @@
         android:id="@+id/spinnerPrograms"
         android:layout_width="220dp"
         android:layout_height="49dp"
-        android:layout_marginTop="136dp"
+        android:layout_marginTop="156dp"
         android:background="@drawable/rounded_corner_spinner"
         android:scrollbars="vertical"
         android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@+id/spinnerYear"
-        app:layout_constraintHorizontal_bias="0.805"
+        app:layout_constraintHorizontal_bias="0.863"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -47,6 +47,7 @@
         android:textColorHighlight="#03A9F4"
         android:textColorHint="#FBFBFB"
         android:visibility="visible"
+        android:theme="@style/RadioButtonStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,13 +57,12 @@
         android:id="@+id/spinnerYear"
         android:layout_width="49dp"
         android:layout_height="49dp"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
+        android:layout_marginEnd="32dp"
         android:background="@drawable/rounded_corner_spinner"
         app:layout_constraintBottom_toTopOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.921" />
+        app:layout_constraintVertical_bias="0.898" />
 
     <TextView
         android:id="@+id/textView2"
@@ -82,7 +82,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Select a program year and period"
+        android:text="Select a program, year and period"
         android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -93,15 +93,15 @@
         android:id="@+id/aboutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_corner_aboutbtn"
         android:onClick="displayAbout"
         android:text="About"
         android:textColor="#EDE4E4"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.894"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+        app:layout_constraintHorizontal_bias="0.975"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -120,6 +120,7 @@
             android:layout_height="match_parent"
             android:text="Today           "
             android:textColor="#F4F6F6"
+            android:theme="@style/RadioButtonStyle"
             tools:layout_editor_absoluteX="76dp"
             tools:layout_editor_absoluteY="476dp" />
 
@@ -129,6 +130,7 @@
             android:layout_height="match_parent"
             android:text="This Week"
             android:textColor="#F4F6F6"
+            android:theme="@style/RadioButtonStyle"
             tools:layout_editor_absoluteX="187dp"
             tools:layout_editor_absoluteY="476dp" />
 
@@ -138,6 +140,8 @@
             android:layout_height="match_parent"
             android:text="30 days upcoming "
             android:textColor="#F4F6F6"
+            android:textColorHint="#000000"
+            android:theme="@style/RadioButtonStyle"
             tools:layout_editor_absoluteX="293dp"
             tools:layout_editor_absoluteY="476dp" />
     </RadioGroup>

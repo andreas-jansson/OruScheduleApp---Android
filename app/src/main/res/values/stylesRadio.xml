@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RadioButtonStyle">
+        <item name="colorAccent">@android:color/holo_blue_light</item>
+        <item name="android:textColorPrimary">@android:color/darker_gray</item>
+        <item name="android:buttonTint">#F4B0F7</item>
+    </style>
+</resources>
