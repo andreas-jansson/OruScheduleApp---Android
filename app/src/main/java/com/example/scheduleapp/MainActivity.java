@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         yearListOne.add(1);
 
         if(currentSpinnerProgram != null) {
-            if (currentSpinnerProgram.equals("Datateknik - Civilingenjör") || currentSpinnerProgram.equals("Industriell ekonomi - Civilingenjör")) {
+            if (currentSpinnerProgram.equals("Civilingenjör - Datateknik") || currentSpinnerProgram.equals("Industriell ekonomi - Civilingenjör")) {
                 ArrayAdapter<Integer> programAdapter = new ArrayAdapter<>(
                         this,
                         android.R.layout.simple_list_item_1,
@@ -322,13 +322,13 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         final ArrayList<String> programList = new ArrayList<>();
         programList.add("Select Program");
         programList.add("Analysvetenskap. pgm i kemi med inr. forensik");
-        programList.add("Byggteknik - Högskoleingenjör");
-        programList.add("Datateknik - Högskoleingenjör");
-        programList.add("Industriell ekonomi - Högskoleingenjör");
-        programList.add("Ind design och produktutv - Högskoleingenjör");
-        programList.add("Maskinteknik - Högskoleingenjör");
-        programList.add("Datateknik - Civilingenjör");
-        programList.add("Industriell ekonomi - Civilingenjör");
+        programList.add("Högskoleingenjör - Byggteknik");
+        programList.add("Högskoleingenjör - Datateknik");
+        programList.add("Högskoleingenjör - Industriell ekonomi");
+        programList.add("Högskoleingenjör - Ind design och produktutv");
+        programList.add("Högskoleingenjör - Maskinteknik");
+        programList.add("Civilingenjör - Datateknik");
+        programList.add("Civilingenjör - Industriell ekonomi");
         programList.add("Masterprogram i kemi med inrikt. miljöforensik");
         programList.add("Matematikerprogrammet");
         programList.add("Måltidsekologprogrammet");
@@ -395,19 +395,34 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         System.out.println("****** INIT ******");
         final ArrayList<String> programList = new ArrayList<>();
+        //programList.add("Select Program");
+        //programList.add("Analysvetenskap. pgm i kemi med inr. forensik");
+        //programList.add("Byggteknik - Högskoleingenjör");
+        //programList.add("Datateknik - Högskoleingenjör");
+        //programList.add("Industriell ekonomi - Högskoleingenjör");
+        //programList.add("Ind design och produktutv - Högskoleingenjör");
+        //programList.add("Maskinteknik - Högskoleingenjör");
+        //programList.add("Datateknik - Civilingenjör");
+        //programList.add("Industriell ekonomi - Civilingenjör");
+        //programList.add("Masterprogram i kemi med inrikt. miljöforensik");
+        //programList.add("Matematikerprogrammet");
+        //programList.add("Måltidsekologprogrammet");
+        //programList.add("Tekniskt basår");
+
         programList.add("Select Program");
         programList.add("Analysvetenskap. pgm i kemi med inr. forensik");
-        programList.add("Byggteknik - Högskoleingenjör");
-        programList.add("Datateknik - Högskoleingenjör");
-        programList.add("Industriell ekonomi - Högskoleingenjör");
-        programList.add("Ind design och produktutv - Högskoleingenjör");
-        programList.add("Maskinteknik - Högskoleingenjör");
-        programList.add("Datateknik - Civilingenjör");
-        programList.add("Industriell ekonomi - Civilingenjör");
+        programList.add("Civilingenjör - Datateknik");
+        programList.add("Civilingenjör - Industriell ekonomi");
+        programList.add("Högskoleingenjör - Byggteknik");
+        programList.add("Högskoleingenjör - Datateknik");
+        programList.add("Högskoleingenjör - Industriell ekonomi");
+        programList.add("Högskoleingenjör - Ind design och produktutv");
+        programList.add("Högskoleingenjör - Maskinteknik");
         programList.add("Masterprogram i kemi med inrikt. miljöforensik");
         programList.add("Matematikerprogrammet");
         programList.add("Måltidsekologprogrammet");
         programList.add("Tekniskt basår");
+
 
 
         final ArrayList<Integer> yearListFive = new ArrayList<>();
@@ -459,7 +474,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
                     currentSpinnerProgram = ProgramValue;
                     System.out.println("****** current: " + currentSpinnerProgram);
                     //dropDownYearEntries();
-                    if (currentSpinnerProgram.equals("Datateknik - Civilingenjör") || currentSpinnerProgram.equals("Industriell ekonomi - Civilingenjör")) {
+                    if (currentSpinnerProgram.equals("Civilingenjör - Datateknik") || currentSpinnerProgram.equals("Civilingenjör - Industriell ekonomi")) {
                         ArrayAdapter<Integer> yearAdapter = new ArrayAdapter<>(
                                 getApplicationContext(),
                                 android.R.layout.simple_list_item_1,
