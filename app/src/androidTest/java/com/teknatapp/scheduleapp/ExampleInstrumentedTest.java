@@ -1,4 +1,4 @@
-package com.example.scheduleapp;
+package com.teknatapp.scheduleapp;
 
 import android.content.Context;
 

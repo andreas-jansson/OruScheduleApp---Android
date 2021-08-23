@@ -1,4 +1,4 @@
-package com.example.scheduleapp;
+package com.teknatapp.scheduleapp;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,7 +11,6 @@ import android.os.Bundle;
 import java.time.LocalDate;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.TextView;
 import android.widget.Toast;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
