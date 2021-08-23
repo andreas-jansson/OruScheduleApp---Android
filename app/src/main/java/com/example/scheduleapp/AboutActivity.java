@@ -16,7 +16,7 @@ public class AboutActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         TextView textView3 = (TextView) findViewById(R.id.textView3);
         textView3.setText("This app is the result of a one week spare time mini project.\n" +
-                "It was created to allow easy access to the schedule" +
+                "It was created to allow easy access to the schedule " +
                 "and probably contains some bugs\n" +
                 "\n:)\n\n\n\n\n\n\n\n\n\n\n\n\n\n"+
                 "Created by: Andréas Jansson\n" +

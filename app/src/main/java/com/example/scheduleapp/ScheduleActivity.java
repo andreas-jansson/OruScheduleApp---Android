@@ -78,75 +78,80 @@ public class ScheduleActivity extends AppCompatActivity {
     public String GetStringPicker(){
         GetEndDate();
 
+        if(DateValue != 0){
+            endDate="slutDatum=" + endDate;
+        }
+
+
         if(ProgramValue.equals("Datateknik - Högskoleingenjör") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                    "startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
                     "Datateknik+%C3%A5k+"+ YearValue + "-";
         }
         else if(ProgramValue.equals("Byggteknik - Högskoleingenjör") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                    "startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
                     "Byggteknik+%C3%A5k+"+ YearValue + "-";
         }
         else if(ProgramValue.equals("Maskinteknik - Högskoleingenjör") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                    "startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
                     "Maskinteknik+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Industriell ekonomi - Högskoleingenjör") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                    "startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
                     "Industriell+ekonomi+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Ind design och produktutv - Högskoleingenjör") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                    "startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
                     "Ind+design+och+produktutv+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Datateknik - Civilingenjör")){
             if(YearValue == 1 || YearValue == 2){
-                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                         "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+datateknik+%C3%A5k+"+ YearValue;
             }
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+datateknik+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Industriell ekonomi - Civilingenjör")){
 
             if(YearValue == 1 || YearValue == 2) {
-                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                         "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+industriell+ekonomi+%C3%A5k+"+ YearValue;
             }
-                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+                return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Civilingenj%C3%B6r+industriell+ekonomi+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Biologiprogrammet") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate + "&sprak=SV" +
+            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate + "&sprak=SV" +
                     "&sokMedAND=true&forklaringar=true&resurser=p.Biologiprogrammet+%C3%A5k+"+ YearValue +"-";
         }
         else if(ProgramValue.equals("Analysvetenskap. pgm i kemi med inr. forensik") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Analysvetenskap.+pgm+i+kemi+med+inr.+forensik+%C3%A5k+" + YearValue;
         }
         else if(ProgramValue.equals("Matematikerprogrammet") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Matematikerprogrammet+%C3%A5k+" + YearValue;
         }
         else if(ProgramValue.equals("Måltidsekologprogrammet") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.M%C3%A5ltidsekologprogrammet+%C3%A5k+" + YearValue;
         }
         else if(ProgramValue.equals("Tekniskt basår") && YearValue == 1){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.Tekniskt+bas%C3%A5r";
         }
         else if(ProgramValue.equals("Masterprogram i kemi med inrikt. miljöforensik") && (YearValue == 1 || YearValue == 2)){
-            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
+            return "https://kronox.oru.se/setup/jsp/Schema.jsp?startDatum=idag&"+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=true&resurser=p.Masterprogram+i+kemi+med+inrikt.+milj%C3%B6forensik+%C3%A5k"+ YearValue;
         }
         else if(ProgramValue.equals("Select Program")){
@@ -393,7 +398,7 @@ public class ScheduleActivity extends AppCompatActivity {
         ProgramValue = intent.getStringExtra(MainActivity.EXTRA_TEXT2);
         YearValue = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_TEXT3));
         DateValue = Integer.parseInt(intent.getStringExtra(MainActivity.EXTRA_TEXT4));
-
+        System.out.println("DateVaule: " + DateValue);
 
         url = GetStringPicker();
         System.out.println("url: " + url);
