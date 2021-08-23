@@ -92,7 +92,7 @@ public class ScheduleActivity extends AppCompatActivity {
         }
         else if(ProgramValue.equals("Maskinteknik - Högskoleingenjör") && (YearValue == 1 || YearValue == 2 || YearValue == 3)){
             return "https://kronox.oru.se/setup/jsp/Schema.jsp?" +
-                    "startDatum=idag&islutDatum="+ endDate +"&sprak=SV" +
+                    "startDatum=idag&slutDatum="+ endDate +"&sprak=SV" +
                     "&sokMedAND=true&forklaringar=false&resurser=p.H%C3%B6gskoleingenj%C3%B6r+-+" +
                     "Maskinteknik+%C3%A5k+"+ YearValue +"-";
         }
@@ -178,7 +178,7 @@ public class ScheduleActivity extends AppCompatActivity {
                         htmlString = response.body().string();
                     }
                     else{
-                        System.out.println("no success!");
+                    //    System.out.println("no success!");
                     }
                 }
             });
@@ -187,11 +187,11 @@ public class ScheduleActivity extends AppCompatActivity {
     }
 
     public void getScheduleAPI2(String url){
-        System.out.println("****####*****");
-        System.out.println("GetScheduleAPI");
+    //    System.out.println("****####*****");
+     //   System.out.println("GetScheduleAPI");
      //   String url = GetStringPicker();
-        System.out.println("****####*****");
-        System.out.println("API TIME - url: " + url);
+     //   System.out.println("****####*****");
+     //   System.out.println("API TIME - url: " + url);
 
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -201,7 +201,7 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
-                System.out.println("failure!");
+       //        System.out.println("failure!");
             }
 
             @Override
@@ -211,15 +211,15 @@ public class ScheduleActivity extends AppCompatActivity {
                    // cleanHtml();
                 }
                 else{
-                    System.out.println("no success!");
+               //     System.out.println("no success!");
                 }
             }
         });
     }
 
     private void cleanHtml(){
-        System.out.println("****####*****");
-        System.out.println("cleanHtml");
+     //   System.out.println("****####*****");
+     //   System.out.println("cleanHtml");
         Document doc = Jsoup.parse(htmlString);
         Element parsed = doc.select("table[class=schematabell]").first();
         if(parsed != null) {
@@ -228,7 +228,7 @@ public class ScheduleActivity extends AppCompatActivity {
 
         }
         else{
-            System.out.println("***Setting null");
+    //        System.out.println("***Setting null");
             htmlString=null;
             return;
         }
@@ -237,8 +237,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
     private void cleanHtmlPretty(){
         boolean sameDay=false;
-        System.out.println("****####*****");
-        System.out.println("PrettyHtml");
+    //    System.out.println("****####*****");
+    //    System.out.println("PrettyHtml");
 
         Document doc = Jsoup.parse(htmlString);
         doc.select("td[class=blank]").remove();
@@ -309,15 +309,15 @@ public class ScheduleActivity extends AppCompatActivity {
         index++;
     }
         htmlString = customHtml + "</table>";
-        System.out.println("*** CUSTOM ***");
-        System.out.println(htmlString);
+    //    System.out.println("*** CUSTOM ***");
+    //    System.out.println(htmlString);
 
 
     }
 
     private void GetEndDate(){
-        System.out.println("****####*****");
-        System.out.println("GetEndDate");
+   //     System.out.println("****####*****");
+    //    System.out.println("GetEndDate");
         Date date = new Date();
         // System.out.println("date: " + date);
         Calendar cal = Calendar.getInstance();
@@ -328,9 +328,9 @@ public class ScheduleActivity extends AppCompatActivity {
             return;
         }
         else if(DateValue == 1){
-            System.out.println("*** 1st day ***");
+        //    System.out.println("*** 1st day ***");
             ThisLocalizedWeek test = new ThisLocalizedWeek(Locale.FRANCE);
-            System.out.println("Last!: " + test.getLastDay());
+            System.out.println("EndDate sun!: " + test.getLastDay());
             endDate=test.getLastDay().toString();
             return;
         }
@@ -342,8 +342,8 @@ public class ScheduleActivity extends AppCompatActivity {
         date = cal.getTime();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         endDate = df.format(date);
-        System.out.println("*** EndDate ***");
-        System.out.println("enddate: " + endDate);
+   //     System.out.println("*** EndDate ***");
+    //    System.out.println("enddate: " + endDate);
 
 
 
@@ -351,11 +351,11 @@ public class ScheduleActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void GetEndDate2(){
-        System.out.println("****####*****");
-        System.out.println("GetEndDate");
+     //   System.out.println("****####*****");
+     //   System.out.println("GetEndDate");
 
         LocalDate myObj = LocalDate.now();
-        System.out.println("date now: " + myObj);
+      //  System.out.println("date now: " + myObj);
 
 
         if(DateValue == 0){
@@ -363,7 +363,7 @@ public class ScheduleActivity extends AppCompatActivity {
             return;
         }
         else if(DateValue == 1){
-            System.out.println("*** 1st day ***");
+       //     System.out.println("*** 1st day ***");
 
         }
         else{
@@ -372,8 +372,8 @@ public class ScheduleActivity extends AppCompatActivity {
 
       /*  SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         endDate = df.format();*/
-        System.out.println("*** EndDate ***");
-        System.out.println("enddate: " + endDate);
+     //   System.out.println("*** EndDate ***");
+     //   System.out.println("enddate: " + endDate);
     }
 
 
